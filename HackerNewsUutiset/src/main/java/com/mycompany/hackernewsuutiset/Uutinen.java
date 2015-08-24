@@ -7,6 +7,6 @@ public class Uutinen {
     
     @Override
     public String toString(){
-        return "By: " + by + " url: " + url;
+        return "tekijältä: " + by + " , linkki: " + url;
     }
 }

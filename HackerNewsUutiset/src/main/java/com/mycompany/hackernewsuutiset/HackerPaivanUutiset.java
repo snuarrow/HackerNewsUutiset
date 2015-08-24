@@ -19,8 +19,9 @@ public class HackerPaivanUutiset implements PaivanUutiset {
         String[] array = suosituimmat.split(",");
         int suosituin = Integer.parseInt(array[0]);
         String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + suosituin + ".json?print=pretty");
+        System.out.println("Vastaus: " + vastaus);
         Uutinen uutinen = gson.fromJson(vastaus, Uutinen.class);
-        return uutinen.toString();
+        return "Suosituin uutinen on " + uutinen.toString();
     }
 
     @Override
@@ -32,7 +33,7 @@ public class HackerPaivanUutiset implements PaivanUutiset {
         int viimeisin = Integer.parseInt(array[0]);
         String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + viimeisin + ".json?print=pretty");
         Uutinen uutinen = gson.fromJson(vastaus, Uutinen.class);
-        return uutinen.toString();
+        return "Viimeisin uutinen on " + uutinen.toString();
     }
     
 }
