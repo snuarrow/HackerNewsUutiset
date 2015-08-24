@@ -8,6 +8,8 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class HackerPaivanUutiset implements PaivanUutiset {
+    
+    private static Gson gson = new Gson();
 
     @Override
     public String haeSuosituinUutinen() {
@@ -17,7 +19,8 @@ public class HackerPaivanUutiset implements PaivanUutiset {
         String[] array = suosituimmat.split(",");
         int suosituin = Integer.parseInt(array[0]);
         String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + suosituin + ".json?print=pretty");
-        return vastaus;
+        Uutinen uutinen = gson.fromJson(vastaus, Uutinen.class);
+        return uutinen.toString();
     }
 
     @Override
@@ -28,8 +31,8 @@ public class HackerPaivanUutiset implements PaivanUutiset {
         String[] array = uusimmat.split(",");
         int viimeisin = Integer.parseInt(array[0]);
         String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + viimeisin + ".json?print=pretty");
-        //Uutinen uutinen = gson.fromJson(vastaus, Uutinen.class);
-        return vastaus;
+        Uutinen uutinen = gson.fromJson(vastaus, Uutinen.class);
+        return uutinen.toString();
     }
     
 }
