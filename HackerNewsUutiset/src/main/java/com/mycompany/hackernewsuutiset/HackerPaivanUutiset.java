@@ -11,25 +11,25 @@ public class HackerPaivanUutiset implements PaivanUutiset {
 
     @Override
     public String haeSuosituinUutinen() {
-        String vastaus = HTTPClient.callURL("http://hs.fi");
-        System.out.println("Vastaus: " + vastaus);
+        String suosituimmat = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/topstories.json");
+        suosituimmat = suosituimmat.replace("[", "");
+        suosituimmat = suosituimmat.replace("]", "");
+        String[] array = suosituimmat.split(",");
+        int suosituin = Integer.parseInt(array[0]);
+        String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + suosituin + ".json?print=pretty");
         return vastaus;
     }
 
     @Override
     public String haeViimeisinUutinen() {
-        String uusin = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/newstories.json");
-        
-        System.out.println("UUSIN: " + uusin);
-        uusin = uusin.replace("[", "");
-        uusin = uusin.replace("]", "");
-        String[] array = uusin.split(",");
-        System.out.println("Arrayn eka: " + array[0]);
-        System.out.println("Array: " + Arrays.toString(array));
-        //String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + ids[0] + ".json?print=pretty");
-        //System.out.println("VASTAUS: " + vastaus);
+        String uusimmat = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/newstories.json");
+        uusimmat = uusimmat.replace("[", "");
+        uusimmat = uusimmat.replace("]", "");
+        String[] array = uusimmat.split(",");
+        int viimeisin = Integer.parseInt(array[0]);
+        String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + viimeisin + ".json?print=pretty");
         //Uutinen uutinen = gson.fromJson(vastaus, Uutinen.class);
-        return "";
+        return vastaus;
     }
     
 }
