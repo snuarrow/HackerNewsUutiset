@@ -5,26 +5,36 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mycompany.paivanuutiset.PaivanUutiset;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class HackerPaivanUutiset implements PaivanUutiset {
+    
+    private static Gson gson = new Gson();
 
     @Override
     public String haeSuosituinUutinen() {
-        String vastaus = HTTPClient.callURL("http://hs.fi");
+        String suosituimmat = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/topstories.json");
+        suosituimmat = suosituimmat.replace("[", "");
+        suosituimmat = suosituimmat.replace("]", "");
+        String[] array = suosituimmat.split(",");
+        int suosituin = Integer.parseInt(array[0]);
+        String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + suosituin + ".json?print=pretty");
         System.out.println("Vastaus: " + vastaus);
-        return vastaus;
+        Uutinen uutinen = gson.fromJson(vastaus, Uutinen.class);
+        return "Suosituin uutinen on " + uutinen.toString();
     }
 
     @Override
     public String haeViimeisinUutinen() {
-        String uusin = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/newstories");
-        Gson gson = new GsonBuilder().create();
-        String[] ids = gson.fromJson(uusin, String[].class);
-        System.out.println("ID: " + ids[0]);
-        int uusinid = Integer.parseInt(ids[0]);
-        String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + ids[0] + ".json?print=pretty");
-        System.out.println("VASTAUS: " + vastaus);
+        String uusimmat = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/newstories.json");
+        uusimmat = uusimmat.replace("[", "");
+        uusimmat = uusimmat.replace("]", "");
+        String[] array = uusimmat.split(",");
+        int viimeisin = Integer.parseInt(array[0]);
+        String vastaus = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/item/" + viimeisin + ".json?print=pretty");
         Uutinen uutinen = gson.fromJson(vastaus, Uutinen.class);
-        return uutinen.toString();
+        return "Viimeisin uutinen on " + uutinen.toString();
     }
     
 }
