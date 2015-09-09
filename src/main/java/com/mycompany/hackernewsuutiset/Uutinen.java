@@ -10,9 +10,6 @@ public class Uutinen {
     @Override
     public String toString() {
         
-        System.out.println("");
-        System.out.println("");
-        
         return title  + " by " + by + ", url: " + url;
     }
     
