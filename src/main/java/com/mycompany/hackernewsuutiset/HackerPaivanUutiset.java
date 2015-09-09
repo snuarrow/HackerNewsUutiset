@@ -12,6 +12,10 @@ public class HackerPaivanUutiset implements PaivanUutiset {
     
     private static Gson gson = new Gson();
 
+    
+    
+    
+    
     @Override
     public String haeSuosituinUutinen() {
         String suosituimmat = HTTPClient.callURL("https://hacker-news.firebaseio.com/v0/topstories.json");
